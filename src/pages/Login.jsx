@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const API = import.meta.env.VITE_API_URL;
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,17 +12,15 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${API}/api/auth/login`,
         {
           email,
           password,
         }
       );
 
-      // save token
       localStorage.setItem("token", res.data.token);
 
-      // save user (IMPORTANT for cashier tracking)
       localStorage.setItem(
         "user",
         JSON.stringify(res.data.user)
